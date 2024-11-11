@@ -1,5 +1,5 @@
 declare type SearchParamProps = {
-  params: { id: string; type: TransformationTypeKey };
+  params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
