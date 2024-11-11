@@ -8,6 +8,7 @@ export interface IResume {
     lastName?: string;
   };
   title: string;
+  photo?: string;
   summary?: string;
   experiences: IExperience[];
   education: IEducation[];
@@ -57,6 +58,10 @@ const ResumeSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
+  },
+  photo: {
+    type: String,
+    default: null,
   },
   title: {
     type: String,

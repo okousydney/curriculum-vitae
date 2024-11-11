@@ -7,12 +7,12 @@ export const navLinks = [
   {
     label: "Create your Resume",
     route: "/resume/create",
-    icon: "/assets/icons/image.svg",
+    icon: "/assets/icons/create.svg",
   },
   {
     label: "My resume",
     route: "/resume",
-    icon: "/assets/icons/stars.svg",
+    icon: "/assets/icons/resume.svg",
   },
 
   {

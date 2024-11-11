@@ -20,8 +20,8 @@ declare type UpdateUserParams = {
 };
 
 declare type CreateResumeParams = {
-  userId: string;
   title: string;
+  photo?: string;
   summary?: string;
   experiences: IExperience[];
   education: IEducation[];
@@ -32,6 +32,7 @@ declare type CreateResumeParams = {
 
 declare type UpdateResumeParams = {
   title?: string;
+  photo?: string;
   summary?: string;
   experiences?: IExperience[];
   education?: IEducation[];

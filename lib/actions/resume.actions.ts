@@ -4,13 +4,23 @@ import { revalidatePath } from "next/cache";
 import Resume from "../database/models/resume.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../helpers";
+import User from "../database/models/user.model";
 
 // CREATE
-export async function createResume(resumeData: CreateResumeParams) {
+export async function createResume(
+  userId: string,
+  resumeData: CreateResumeParams
+) {
   try {
     await connectToDatabase();
 
-    const newResume = await Resume.create(resumeData);
+    const author = await User.findById(userId);
+
+    if (!author) {
+      throw new Error("User not found");
+    }
+
+    const newResume = await Resume.create({ ...resumeData, user: author._id });
 
     return JSON.parse(JSON.stringify(newResume));
   } catch (error) {

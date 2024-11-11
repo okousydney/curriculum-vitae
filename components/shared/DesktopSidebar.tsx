@@ -78,19 +78,8 @@ const DesktopSidebar = () => {
                   </li>
                 );
               })}
-              <li className="flex-center cursor-pointer gap-2 p-4">
-                <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonBox: {
-                        flexDirection: "row-reverse",
-                        color: "white",
-                        fontSize: "18",
-                      },
-                    },
-                  }}
-                  showName
-                />
+              <li className="flex-center cursor-pointer gap-4 p-6">
+                <UserButton showName />
               </li>
             </ul>
           </SignedIn>

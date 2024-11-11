@@ -82,3 +82,15 @@ body {
 .auth {
   @apply flex justify-center items-center min-h-screen w-full bg-indigo-100;
 }
+
+/* =====  CLERK OVERRIDES */
+.cl-userButtonBox {
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+.cl-userButtonOuterIdentifier {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
