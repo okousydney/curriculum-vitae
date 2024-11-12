@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 export interface IResume {
-  _id?: string;
+  _id: string;
   user: {
     _id: string;
     firstName?: string;
@@ -14,7 +14,6 @@ export interface IResume {
   education: IEducation[];
   skills: ISkill[];
   languages: ILanguage[];
-  certifications: ICertification[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -45,12 +44,6 @@ export interface ISkill {
 export interface ILanguage {
   language: string;
   proficiency?: string; // Par exemple : "Courant", "Intermédiaire", etc.
-}
-
-export interface ICertification {
-  title: string;
-  issuer?: string;
-  date?: Date;
 }
 
 const ResumeSchema = new Schema({
@@ -100,13 +93,7 @@ const ResumeSchema = new Schema({
       proficiency: { type: String },
     },
   ],
-  certifications: [
-    {
-      title: { type: String, required: true },
-      issuer: { type: String },
-      date: { type: Date },
-    },
-  ],
+
   createdAt: {
     type: Date,
     default: Date.now,

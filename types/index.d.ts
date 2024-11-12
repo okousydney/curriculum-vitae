@@ -27,7 +27,6 @@ declare type CreateResumeParams = {
   education: IEducation[];
   skills: ISkill[];
   languages: ILanguage[];
-  certifications: ICertification[];
 };
 
 declare type UpdateResumeParams = {

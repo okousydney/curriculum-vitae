@@ -21,3 +21,19 @@ export const navLinks = [
     icon: "/assets/icons/profile.svg",
   },
 ];
+
+export enum FormActions {
+  CREATE = "create",
+  UPDATE = "update",
+}
+
+export const FormValues = {
+  [FormActions.CREATE]: {
+    loading: "Resume creation...",
+    button: "Create the resume",
+  },
+  [FormActions.UPDATE]: {
+    loading: "Updating resume...",
+    button: "Update the resume",
+  },
+};
