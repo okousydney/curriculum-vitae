@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { FadeLoader } from "react-spinners";
 
 type Resume = {
   _id: string;
@@ -15,11 +16,14 @@ const HomePage = () => {
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredResumes, setFilteredResumes] = useState<Resume[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchResumes = async () => {
+      setIsLoading(true);
       const response = await fetch("/api/resumes");
       const data = await response.json();
+      setIsLoading(false);
       setResumes(data);
       setFilteredResumes(data);
     };
@@ -53,38 +57,57 @@ const HomePage = () => {
       </div>
 
       {/* Liste de CV */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredResumes.map((resume) => (
-          <Link key={resume._id} href={`/resume/${resume._id}`}>
-            <div className="p-4 bg-indigo-100 rounded-lg shadow hover:shadow-lg transition cursor-pointer">
-              {/* Photo du CV */}
-              {resume.photo ? (
-                <Image
-                  src={resume.photo}
-                  alt={`${resume.title} photo`}
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-cover rounded-full mx-auto"
-                />
-              ) : (
-                <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto" />
-              )}
 
-              {/* Titre du CV */}
-              <h3 className="text-lg font-semibold text-center mt-4 text-indigo-900">
-                {resume.title}
-              </h3>
+      {isLoading && (
+        <div>
+          <FadeLoader />
+        </div>
+      )}
+      {!isLoading &&
+        (filteredResumes.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredResumes.map((resume) => (
+              <Link key={resume._id} href={`/resume/${resume._id}`}>
+                <div className="p-4 bg-indigo-100 rounded-lg shadow hover:shadow-lg transition cursor-pointer">
+                  {/* Photo du CV */}
+                  {resume.photo ? (
+                    <Image
+                      src={resume.photo}
+                      alt={`${resume.title} photo`}
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 object-cover rounded-full mx-auto"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto" />
+                  )}
 
-              {/* Résumé */}
-              <p className="text-center text-sm text-indigo-700 mt-2">
-                {resume.summary.length > 100
-                  ? resume.summary.slice(0, 100) + "..."
-                  : resume.summary}
-              </p>
-            </div>
-          </Link>
+                  {/* Titre du CV */}
+                  <h3 className="text-lg font-semibold text-center mt-4 text-indigo-900">
+                    {resume.title}
+                  </h3>
+
+                  {/* Résumé */}
+                  <p className="text-center text-sm text-indigo-700 mt-2">
+                    {resume.summary.length > 100
+                      ? resume.summary.slice(0, 100) + "..."
+                      : resume.summary}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="italic mt-8">
+            There is no resume yet, create one on{" "}
+            <Link
+              href="/resume/create"
+              className="underline underline-offset-8"
+            >
+              &quot;Create your resume&quot;
+            </Link>
+          </div>
         ))}
-      </div>
     </div>
   );
 };
