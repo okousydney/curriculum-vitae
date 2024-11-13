@@ -79,9 +79,6 @@ const ResumeForm = ({
           return "Resume successfully created";
         } else if (action === FormActions.UPDATE && !!data?._id) {
           await updateResume(data?._id, resumeData);
-          //   if (newResume) {
-          //     router.push(`/resume/${newResume._id}`);
-          //   }
           return "Resume successfully updated";
         }
       }
@@ -93,7 +90,6 @@ const ResumeForm = ({
   };
 
   const [message, submitAction, isPending] = useActionState(addResume, "");
-
   const [isDeleting, startTransition] = useTransition();
 
   const deleteAction = () => {
@@ -114,13 +110,12 @@ const ResumeForm = ({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhoto(reader.result as string); // Set the base64 string as photo
+        setPhoto(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Functions to handle adding/removing items for each dynamic field
   const handleInputChange = (
     index: number,
     field: string,
@@ -211,6 +206,7 @@ const ResumeForm = ({
                       )
                     }
                     className="w-full border p-2 rounded-md bg-indigo-50"
+                    required
                   />
                   <input
                     type="text"
@@ -261,6 +257,7 @@ const ResumeForm = ({
                     type="text"
                     placeholder="Job Title"
                     value={experience.jobTitle}
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -276,6 +273,7 @@ const ResumeForm = ({
                     type="text"
                     placeholder="Company"
                     value={experience.company}
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -296,6 +294,7 @@ const ResumeForm = ({
                             .toISOString()
                             .split("T")[0]
                     }
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -379,6 +378,7 @@ const ResumeForm = ({
                     type="text"
                     placeholder="Institution"
                     value={item.institution}
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -394,6 +394,7 @@ const ResumeForm = ({
                     type="text"
                     placeholder="Degree"
                     value={item.degree}
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -426,6 +427,7 @@ const ResumeForm = ({
                         ? item.startDate
                         : new Date(item.startDate).toISOString().split("T")[0]
                     }
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -493,6 +495,7 @@ const ResumeForm = ({
                     type="text"
                     placeholder="Skill"
                     value={skill.name}
+                    required
                     onChange={(e) =>
                       handleInputChange(
                         index,
@@ -553,6 +556,7 @@ const ResumeForm = ({
           </button>
           <p className="text-center mt-4 font-medium">{message}</p>
         </div>
+
         {action === FormActions.UPDATE && (
           <div>
             <button
