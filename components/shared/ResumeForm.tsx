@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useTransition } from "react";
 import { IUser } from "@/lib/database/models/user.model";
 import { useRouter } from "next/navigation";
 import {
@@ -55,8 +55,7 @@ const ResumeForm = ({
   const [photo, setPhoto] = useState<string | undefined>(
     data?.photo || undefined
   );
-  const [error, setError] = useState<string | null>(null);
-
+  const [deleteError, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const addResume = async () => {
@@ -79,39 +78,36 @@ const ResumeForm = ({
           }
           return "Resume successfully created";
         } else if (action === FormActions.UPDATE && !!data?._id) {
-          const newResume = await updateResume(data?._id, resumeData);
-          if (newResume) {
-            router.push(`/resume/${newResume._id}`);
-          }
+          await updateResume(data?._id, resumeData);
+          //   if (newResume) {
+          //     router.push(`/resume/${newResume._id}`);
+          //   }
           return "Resume successfully updated";
         }
       }
       return "Unauthorized user";
     } catch (error) {
       console.log(error);
-      setError("An error occurred while creating the resume.");
+      return "An error occurred while creating the resume.";
     }
   };
 
   const [message, submitAction, isPending] = useActionState(addResume, "");
 
-  const deleteMethod = async () => {
-    try {
-      if (action === FormActions.UPDATE && !!data?._id) {
-        await deleteResume(data?._id);
-        return "Resume successfully deleted";
-      }
-      return "No resume to delete";
-    } catch (error) {
-      console.log(error);
-      setError("An error occurred while creating the resume.");
-    }
-  };
+  const [isDeleting, startTransition] = useTransition();
 
-  const [messageDelete, deleteAction, isDeleting] = useActionState(
-    deleteMethod,
-    ""
-  );
+  const deleteAction = () => {
+    startTransition(async () => {
+      try {
+        if (action === FormActions.UPDATE && !!data?._id) {
+          await deleteResume(data?._id);
+        }
+      } catch (error: any) {
+        console.log(error);
+        setError(error.toString());
+      }
+    });
+  };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -147,7 +143,7 @@ const ResumeForm = ({
   };
 
   return (
-    <div className="container mx-auto p-4 lg:p-6 bg-indigo-200 text-indigo-950 rounded-lg shadow-lg mt-2">
+    <div className="container mx-auto p-4 lg:p-6 bg-indigo-200 text-indigo-950 rounded-lg shadow-lg mb-4">
       <form action={submitAction} className="space-y-6 ">
         <section className="flex lg:flex-row flex-col gap-8">
           <div className="flex flex-col gap-4">
@@ -555,7 +551,7 @@ const ResumeForm = ({
           >
             {isPending ? FormValues[action].loading : FormValues[action].button}
           </button>
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          <p className="text-center mt-4 font-medium">{message}</p>
         </div>
         {action === FormActions.UPDATE && (
           <div>
@@ -568,11 +564,10 @@ const ResumeForm = ({
             >
               {isDeleting ? "Deleting ..." : "Delete resume"}
             </button>
+            <p className="text-center mt-4 font-medium">{deleteError}</p>
           </div>
         )}
       </form>
-      <p className="text-center mt-4 font-medium">{message}</p>
-      <p className="text-center mt-4 font-medium">{messageDelete}</p>
     </div>
   );
 };

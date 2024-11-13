@@ -11,7 +11,7 @@ const DesktopSidebar = () => {
   const pathname = usePathname();
   return (
     <aside>
-      <div className="size-full flex-col gap-4 hidden lg:flex bg-indigo-300 text-white p-2">
+      <div className="h-full flex-col gap-4 hidden lg:flex bg-indigo-300 text-white p-2 shadow-2xl shadow-indigo-700">
         <Link href="/" className="flex flex-row justify-center">
           <Image
             src="/assets/images/logo-text.svg"

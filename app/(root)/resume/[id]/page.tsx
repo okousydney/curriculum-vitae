@@ -41,6 +41,13 @@ const ResumePage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <div className="container mx-auto p-6 bg-indigo-100 text-indigo-950 rounded-lg shadow-lg space-y-8">
+      <div className="italic">
+        <h1 className="underline underline-offset-8">Contact :</h1>
+        <p className="pt-4">
+          {resumeData?.user?.firstName} {resumeData?.user?.lastName}
+        </p>
+        <p>{resumeData?.user?.email}</p>
+      </div>
       <div className="text-center">
         {resumeData.photo && (
           <Image

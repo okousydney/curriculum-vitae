@@ -23,11 +23,17 @@ const CreateResumePage = async () => {
           height={24}
           className="brightness-50"
         />
-        <h1>
-          {!!resume
-            ? `Create a new resume (you already have ${resume.length} created)`
-            : "Create a resume "}
-        </h1>
+
+        {!!resume && resume.length > 0 ? (
+          <div>
+            <h1>Create a new resume</h1>{" "}
+            <p className="italic text-md text-gray-100">
+              You already have {resume.length} created
+            </p>
+          </div>
+        ) : (
+          <h1>Create a resume</h1>
+        )}
       </div>
 
       <ResumeForm user={user} action={FormActions.CREATE} />

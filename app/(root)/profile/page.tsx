@@ -1,5 +1,11 @@
-const Profile = () => {
-  return <div>Profile</div>;
+import Profile from "@/components/shared/Profile";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+
+const ProfilePage = async () => {
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
+  return <Profile userId={userId} />;
 };
 
-export default Profile;
+export default ProfilePage;

@@ -33,7 +33,11 @@ export async function getAllResume() {
   try {
     await connectToDatabase();
 
-    const resume = await Resume.find();
+    const resume = await Resume.find().populate({
+      path: "user",
+      model: User,
+      select: "firstName lastName email",
+    });
 
     if (!resume) throw new Error("Resume not found");
 
@@ -47,8 +51,11 @@ export async function getResumeById(resumeId: string) {
   try {
     await connectToDatabase();
 
-    const resume = await Resume.findById(resumeId);
-
+    const resume = await Resume.findById(resumeId).populate({
+      path: "user",
+      model: User,
+      select: "firstName lastName email",
+    });
     if (!resume) throw new Error("Resume not found");
 
     return JSON.parse(JSON.stringify(resume));

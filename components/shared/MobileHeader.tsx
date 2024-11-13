@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 const MobileNav = () => {
   const pathname = usePathname();
   return (
-    <header className="flex flex-row justify-between lg:hidden p-4">
+    <header className="flex flex-row justify-between lg:hidden p-4 bg-indigo-300">
       <Link href="/" className="flex items-center gap-2 md:py-2">
         <Image
           src="/assets/images/logo-text.svg"

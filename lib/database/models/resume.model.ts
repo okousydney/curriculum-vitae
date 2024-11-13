@@ -6,6 +6,7 @@ export interface IResume {
     _id: string;
     firstName?: string;
     lastName?: string;
+    email?: string;
   };
   title: string;
   photo?: string;
