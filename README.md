@@ -9,12 +9,15 @@ Deployed with Vercel: https://curriculum-vitae-kappa.vercel.app/
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
-- Next.js (v15) / React.js (19)
+FullStack app developped with :
+
+- Next.js (v15) / React.js (v19) / Node.js (v20) -> use of recent features like server actions, useTransition, useActionState, use hook ...
 - TypeScript
 - MongoDB
 - Clerk
 - Shadcn
 - TailwindCSS
+- axios / api routes
 
 
 
