@@ -82,10 +82,14 @@ const ResumePage = ({ params }: { params: Promise<{ id: string }> }) => {
                 {exp.jobTitle} - {exp.company}
               </h3>
               <p className="text-sm text-gray-500">
-                {exp.startDate?.toString()} -{" "}
-                {exp.endDate?.toString() || "Present"}
+                {exp.startDate?.toString().split("T")[0]} -{" "}
+                {exp.endDate?.toString().split("T")[0] || "Present"}
               </p>
-              <p>{exp.description}</p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: exp?.description?.replace(/\n/g, "<br />") || "",
+                }}
+              />
             </div>
           ))}
         </section>
@@ -98,12 +102,16 @@ const ResumePage = ({ params }: { params: Promise<{ id: string }> }) => {
               className="p-4 border rounded-md shadow-inner bg-indigo-50 space-y-2 mb-2"
             >
               <h3 className="text-lg font-medium">{edu.institution}</h3>
+              <p className="text-sm text-gray-800">{edu.degree}</p>
+              <p
+                className="text-sm text-gray-500"
+                dangerouslySetInnerHTML={{
+                  __html: edu?.fieldOfStudy?.replace(/\n/g, "<br />") || "",
+                }}
+              />
               <p className="text-sm text-gray-500">
-                {edu.degree} in {edu.fieldOfStudy}
-              </p>
-              <p className="text-sm text-gray-500">
-                {edu.startDate?.toString()} -{" "}
-                {edu.endDate?.toString() || "Present"}
+                {edu.startDate?.toString().split("T")[0]} -{" "}
+                {edu.endDate?.toString().split("T")[0] || "Present"}
               </p>
             </div>
           ))}
